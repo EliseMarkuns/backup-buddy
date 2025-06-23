@@ -1,6 +1,8 @@
 from tkinter import Label, Button, Entry, Text, StringVar, IntVar, END, filedialog
 from tkinter.ttk import Spinbox
 import time
+from backup import perform_backup
+import threading
 
 class BackupBuddyApp:
     def __init__(self, master):
@@ -53,11 +55,21 @@ class BackupBuddyApp:
         if not self.running:
             self.running = True
             self.start_button.config(text="Stop Backup")
+            threading.Thread(target=self.backup_loop, daemon=True).start()
             self.log_message("Backup started.")
         else:
             self.running = False
             self.start_button.config(text="Start Backup")
             self.log_message("Backup stopped.")
+
+    def backup_loop(self):
+        while self.running:
+            try:
+                perform_backup(self.source_dir.get(), self.dest_dir.get(), self.log_message)
+                self.toggle_backup()
+            except Exception as e:
+                self.log_message(f"Error: {e}")
+            
 
     def timestamped(self, message):
         # Returns a timestampted log entry as a string

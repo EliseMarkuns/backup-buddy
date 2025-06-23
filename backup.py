@@ -8,14 +8,14 @@ def perform_backup(src, dst, logger):
     """
 
     # Check if source and destination directions exist
-    if not os.path.exists(src) or not os.path.exists(dst):
-        logger("Invalid source or destination folder.")
+    if not os.path.isdir(src):
+        logger("Source path is not a valid directory.")
         return
     
     logger("Starting backup...")
 
     # Go through all folders and files in source
-    for foldername, subfolders, filenames in os.walk(src):
+    for foldername, _, filenames in os.walk(src): # we don't need subfolders, so it's ignored with '_'
         # Create a relative path to maintain subfolder structure
         rel_path = os.path.relpath(foldername, src)
         target_folder = os.path.join(dst, rel_path)
