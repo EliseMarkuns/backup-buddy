@@ -1,4 +1,4 @@
-from tkinter import Label, Button, Entry, Text, StringVar, IntVar, END, filedialog
+from tkinter import Label, Button, Entry, Text, Checkbutton, StringVar, IntVar, BooleanVar, END, filedialog
 from tkinter.ttk import Spinbox
 import time
 from backup import perform_backup
@@ -31,6 +31,10 @@ class BackupBuddyApp:
         # Start/Stop backup button
         self.start_button = Button(master, text="Start Backup", command=self.toggle_backup)
         self.start_button.grid(row=2, column=1)
+
+        # Dry run checkbox
+        self.dry_run = BooleanVar(value=False)
+        Checkbutton(master, text="Dry Run (Simulate backup, but don't actually copy anything)", variable=self.dry_run).grid(row=3, column=1, columnspan=2)
 
         # Log box
         self.log = Text(master, height=10, width=70)
@@ -65,7 +69,7 @@ class BackupBuddyApp:
     def backup_loop(self):
         while self.running:
             try:
-                perform_backup(self.source_dir.get(), self.dest_dir.get(), self.log_message)
+                perform_backup(self.source_dir.get(), self.dest_dir.get(), self.log_message, dry_run=self.dry_run.get())
                 self.toggle_backup()
             except Exception as e:
                 self.log_message(f"Error: {e}")

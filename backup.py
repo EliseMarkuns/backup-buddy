@@ -1,7 +1,7 @@
 import os
 import shutil
 
-def perform_backup(src, dst, logger):
+def perform_backup(src, dst, logger, dry_run = False):
     """ 
     Copy newer or missing files from src to dest.
     Uses logger(msg) to report status to GUI.
@@ -21,7 +21,8 @@ def perform_backup(src, dst, logger):
         target_folder = os.path.join(dst, rel_path)
 
         # Create the destination subfolder if it doesn't exist, proceed forward if folder exists
-        os.makedirs(target_folder, exist_ok=True)
+        if not dry_run:
+            os.makedirs(target_folder, exist_ok=True)
 
         for filename in filenames:
             src_file = os.path.join(foldername, filename)
@@ -30,7 +31,10 @@ def perform_backup(src, dst, logger):
             # Only copy the file if it doesn't already exist at destination
             # OR if the modification time on the source file is more recent
             if not os.path.exists(dst_file) or os.path.getmtime(src_file) > os.path.getmtime(dst_file):
-                shutil.copy2(src_file, dst_file) # copy2 preserves metadata
-                logger(f"Copied: {src_file} -> {dst_file}")
+                if dry_run:
+                    logger(f"Would copy: {src_file} -> {dst_file}")
+                else:
+                    shutil.copy2(src_file, dst_file) # copy2 preserves metadata
+                    logger(f"Copied: {src_file} -> {dst_file}")
 
     logger("Backup complete.\n")
