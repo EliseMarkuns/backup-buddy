@@ -1,5 +1,6 @@
 from tkinter import Label, Button, Entry, Text, StringVar, IntVar, END, filedialog
 from tkinter.ttk import Spinbox
+import time
 
 class BackupBuddyApp:
     def __init__(self, master):
@@ -13,20 +14,57 @@ class BackupBuddyApp:
         self.running = False                # Is backup actively being performed
 
 
-        # --- GUI Layout ---
+    # --- GUI Layout ---
 
         # Source folder
         Label(master, text="Source Folder:").grid(row=0, column=0)
         Entry(master, textvariable=self.source_dir, width=50).grid(row=0, column=1)
-        Button(master, text="Browse").grid(row=0, column=2)
+        Button(master, text="Browse", command=self.browse_source).grid(row=0, column=2)
 
         # Destination folder
         Label(master, text="Backup Folder:").grid(row=1, column=0)
         Entry(master, textvariable=self.dest_dir, width=50).grid(row=1, column=1)
-        Button(master, text="Browse").grid(row=1,column=2)
+        Button(master, text="Browse", command=self.browse_dest).grid(row=1,column=2)
 
         # Start/Stop backup button
-        self.start_button = Button(master, text="Start Backup").grid(row=2, column=1)
+        self.start_button = Button(master, text="Start Backup", command=self.toggle_backup)
+        self.start_button.grid(row=2, column=1)
 
-        
+        # Log box
+        self.log = Text(master, height=10, width=70)
+        self.log.grid(row=4, column=0, columnspan=3)
+
+    # --- GUI Functions ---
+
+    def browse_source(self):
+        # Open a file browser and select the source path
+        folder = filedialog.askdirectory()
+        if folder:
+            self.source_dir.set(folder)
+
+    def browse_dest(self):
+        # Open a file browser and select the destination path
+        folder = filedialog.askdirectory()
+        if folder:
+            self.dest_dir.set(folder)
+
+    def toggle_backup(self):
+        # Start or stop the backup loop based on current state
+        if not self.running:
+            self.running = True
+            self.start_button.config(text="Stop Backup")
+            self.log_message("Backup started.")
+        else:
+            self.running = False
+            self.start_button.config(text="Start Backup")
+            self.log_message("Backup stopped.")
+
+    def timestamped(self, message):
+        # Returns a timestampted log entry as a string
+
+        timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
+        return f"{timestamp} - {message}\n"
+          
+    def log_message(self, msg):
+        self.log.insert(END, self.timestamped(msg))
         
