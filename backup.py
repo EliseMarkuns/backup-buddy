@@ -1,7 +1,8 @@
 import os
 import shutil
+import time
 
-def perform_backup(src, dst, logger, dry_run = False):
+def perform_backup(src, dst, logger, dry_run = False, update_progress=None):
     """ 
     Copy newer or missing files from src to dest.
     Uses logger(msg) to report status to GUI.
@@ -14,6 +15,10 @@ def perform_backup(src, dst, logger, dry_run = False):
     
     logger("Starting backup...")
 
+    # Count the total number of files for the progress bar
+    total_files = sum(len(files) for _,_, files in os.walk(src))
+    copied_files = 0
+    
     # Go through all folders and files in source
     for foldername, _, filenames in os.walk(src): # we don't need subfolders, so it's ignored with '_'
         # Create a relative path to maintain subfolder structure
@@ -36,5 +41,13 @@ def perform_backup(src, dst, logger, dry_run = False):
                 else:
                     shutil.copy2(src_file, dst_file) # copy2 preserves metadata
                     logger(f"Copied: {src_file} -> {dst_file}")
+            copied_files += 1
+            logger(f"Progress: {copied_files}/{total_files}")
+        
 
+        if update_progress:
+            update_progress(copied_files, total_files)
+
+    if update_progress:
+            update_progress(total_files, total_files)
     logger("Backup complete.\n")
