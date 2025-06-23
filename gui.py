@@ -1,13 +1,13 @@
 from tkinter import Label, Button, Entry, Text, Checkbutton, StringVar, IntVar, BooleanVar, END, filedialog
-from tkinter.ttk import Spinbox
+from tkinter import ttk
 import time
 from backup import perform_backup
 import threading
 
 class BackupBuddyApp:
-    def __init__(self, master):
-        self.master = master
-        master.title("Backup Buddy - Backups made easy :)")
+    def __init__(self, root):
+        self.root = root
+        root.title("Backup Buddy - Backups made easy :)")
 
         # Preparing variables for user input
         self.source_dir = StringVar()       # Path to source folder
@@ -19,25 +19,25 @@ class BackupBuddyApp:
     # --- GUI Layout ---
 
         # Source folder
-        Label(master, text="Source Folder:").grid(row=0, column=0)
-        Entry(master, textvariable=self.source_dir, width=50).grid(row=0, column=1)
-        Button(master, text="Browse", command=self.browse_source).grid(row=0, column=2)
+        Label(root, text="Source Folder:").grid(row=0, column=0)
+        Entry(root, textvariable=self.source_dir, width=50).grid(row=0, column=1)
+        Button(root, text="Browse", command=self.browse_source).grid(row=0, column=2)
 
         # Destination folder
-        Label(master, text="Backup Folder:").grid(row=1, column=0)
-        Entry(master, textvariable=self.dest_dir, width=50).grid(row=1, column=1)
-        Button(master, text="Browse", command=self.browse_dest).grid(row=1,column=2)
+        Label(root, text="Backup Folder:").grid(row=1, column=0)
+        Entry(root, textvariable=self.dest_dir, width=50).grid(row=1, column=1)
+        Button(root, text="Browse", command=self.browse_dest).grid(row=1,column=2)
 
         # Start/Stop backup button
-        self.start_button = Button(master, text="Start Backup", command=self.toggle_backup)
+        self.start_button = Button(root, text="Start Backup", command=self.toggle_backup)
         self.start_button.grid(row=2, column=1)
 
         # Dry run checkbox
         self.dry_run = BooleanVar(value=False)
-        Checkbutton(master, text="Dry Run (Simulate backup, but don't actually copy anything)", variable=self.dry_run).grid(row=3, column=1, columnspan=2)
+        Checkbutton(root, text="Dry Run (Simulate backup, but don't actually copy anything)", variable=self.dry_run).grid(row=3, column=1, columnspan=2)
 
         # Log box
-        self.log = Text(master, height=10, width=70)
+        self.log = Text(root, height=10, width=70)
         self.log.grid(row=4, column=0, columnspan=3)
 
     # --- GUI Functions ---
