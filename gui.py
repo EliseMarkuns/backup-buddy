@@ -3,7 +3,7 @@ from tkinter import filedialog
 from tkinter import ttk
 import time
 from backup import perform_backup
-from utils import log_message
+from utils import log_message, load_config, save_config
 import threading
 
 class BackupBuddyApp:
@@ -50,6 +50,12 @@ class BackupBuddyApp:
         self.scrollbar.grid(row=4, column=3, sticky="ns")
         self.log.config(yscrollcommand=self.scrollbar.set)
 
+        # --- Load config ---
+        self.config = load_config()
+        if self.config:
+            self.source_entry.insert(0, self.config.get("source", ""))
+            self.dest_entry.insert(0, self.config.get("destination", ""))
+    
     # --- GUI Functions ---
 
     def browse_source(self):
@@ -82,6 +88,9 @@ class BackupBuddyApp:
         src = self.source_entry.get()
         dst = self.dest_entry.get()
         dry_run = self.dry_run_var.get()
+
+        # Save settings
+        save_config(src, dst)
 
         # Reset progress and clear log
         self.progress["value"] = 0
