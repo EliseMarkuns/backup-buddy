@@ -1,0 +1,32 @@
+[
+    {
+        "id": "buba",
+        "name": "buba",
+        "source": "Z:/Downloads/test_folder/destination2",
+        "destination": "Z:/Downloads/test_folder/saucestination",
+        "interval": "Daily",
+        "time": "02:00",
+        "n_days": null,
+        "last_run": "2025-07-17T06:16:20.544427"
+    },
+    {
+        "id": "saws",
+        "name": "saws",
+        "source": "Z:/Downloads/test_folder/sauce",
+        "destination": "Z:/Downloads/test_folder/saucestination",
+        "interval": "Daily",
+        "time": "03:00",
+        "n_days": null,
+        "last_run": "2025-07-17T06:32:37.199004"
+    },
+    {
+        "id": "aaa",
+        "name": "aaa",
+        "source": "Z:/Downloads/test_folder/source",
+        "destination": "Z:/Downloads/test_folder/destination",
+        "interval": "Daily",
+        "time": "6:08",
+        "n_days": null,
+        "last_run": "2025-07-17T06:32:40.691915"
+    }
+]
