@@ -1,15 +1,5 @@
 [
     {
-        "id": "buba",
-        "name": "buba",
-        "source": "Z:/Downloads/test_folder/destination2",
-        "destination": "Z:/Downloads/test_folder/saucestination",
-        "interval": "Daily",
-        "time": "02:00",
-        "n_days": null,
-        "last_run": "2025-07-17T06:16:20.544427"
-    },
-    {
         "id": "saws",
         "name": "saws",
         "source": "Z:/Downloads/test_folder/sauce",
@@ -27,6 +17,16 @@
         "interval": "Daily",
         "time": "6:08",
         "n_days": null,
-        "last_run": "2025-07-17T06:32:40.691915"
+        "last_run": "2025-07-18T01:32:58.508549"
+    },
+    {
+        "id": "buba",
+        "name": "buba",
+        "source": "Z:/Downloads/test_folder/destination2",
+        "destination": "Z:/Downloads/test_folder/saucestination",
+        "interval": "Daily",
+        "time": "02:02",
+        "n_days": null,
+        "last_run": "2025-07-18T02:16:37.611737"
     }
 ]
